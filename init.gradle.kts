@@ -25,13 +25,11 @@ class AllowedRepositoryPlugin : Plugin<Gradle> {
                             logger.warn("[settings] Plugin Repository ${(this as? MavenArtifactRepository)?.url ?: name} removed. Only ${allowedPluginRepositories} is allowed")
                             remove(this)
                             if (!added) {
-                                var idx = 0
-                                allowedPluginRepositories.forEach {
+                                allowedPluginRepositories.forEachIndexed { idx, it ->
                                     add(maven {
                                         name = "PLUGIN_REPOSITORY_URL_$idx"
                                         url = java.net.URI(it)
                                     })
-                                    idx++
                                 }
                             }
                         }
@@ -47,13 +45,11 @@ class AllowedRepositoryPlugin : Plugin<Gradle> {
                             logger.warn("[settings] Repository ${(this as? MavenArtifactRepository)?.url ?: name} removed. Only $allowedRepositories allowed")
                             remove(this)
                             if (!added) {
-                                var idx = 0
-                                allowedRepositories.forEach {
+                                allowedRepositories.forEachIndexed { idx, it ->
                                     add(maven {
                                         name = "ALLOWED_REPOSITORY_URL_$idx"
                                         url = java.net.URI(it)
                                     })
-                                    idx++
                                     added = true
                                 }
                             }
@@ -76,13 +72,11 @@ class AllowedRepositoryPlugin : Plugin<Gradle> {
                 }
 
                 // Add the allowed repositories
-                var idx = 0
-                allowedRepositories.forEach {
+                allowedRepositories.forEachIndexed { idx, it ->
                     add(maven {
                         name = "ALLOWED_REPOSITORY_URL_$idx"
                         url = java.net.URI(it)
                     })
-                    idx++
                 }
             }
         }
